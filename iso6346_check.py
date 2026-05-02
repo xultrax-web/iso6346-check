@@ -38,7 +38,9 @@ _LETTER_VALUES: dict[str, int] = {
 
 _FULL = re.compile(r"^[A-Z]{4}\d{7}$")     # 11-char identifier
 _PAYLOAD = re.compile(r"^[A-Z]{4}\d{6}$")  # 10-char payload, no check digit
-_WS = re.compile(r"\s+")
+# Strip whitespace AND dashes — EIRs and shipping docs commonly print
+# the check digit as `XXXX 123456-7` or `XXXX-123456-7`.
+_SEP = re.compile(r"[\s\-]+")
 
 
 class Result(NamedTuple):
@@ -50,8 +52,8 @@ class Result(NamedTuple):
 
 
 def normalize(s: str) -> str:
-    """Strip whitespace and uppercase. No format validation."""
-    return _WS.sub("", s).upper()
+    """Strip whitespace and dashes, uppercase. No format validation."""
+    return _SEP.sub("", s).upper()
 
 
 def compute_check_digit(payload: str) -> int:
