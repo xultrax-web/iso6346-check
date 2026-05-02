@@ -1,10 +1,16 @@
 # iso6346-check
 
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
+[![Zero dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)](./iso6346_check.py)
+[![Stdlib only](https://img.shields.io/badge/stdlib-only-amber)](./iso6346_check.py)
+[![PrefixCheck](https://img.shields.io/badge/companion%20to-prefixcheck.com-E89C00)](https://prefixcheck.com/guide/iso-6346-check-digit/)
+
 A clean, operator-grade Python implementation of the **ISO 6346** container
 check-digit algorithm. Pure standard library. Zero dependencies.
 Drop-in CLI or import as a module.
 
-```
+```console
 $ python iso6346_check.py MSKU8492509
 MSKU 849250 9  VALID
 
@@ -31,7 +37,7 @@ OCR confusions, and manual-entry typos before they reach inventory systems.
 
 The algorithm:
 
-```
+```text
 For each character in positions 0..9:
     value = letter-table-lookup OR digit
     weighted = value * (2 ^ position)
@@ -60,7 +66,7 @@ Or copy `iso6346_check.py` into your own project and `import` from it.
 
 ## CLI usage
 
-```
+```console
 iso6346_check.py CSQU3054383            # validate one
 iso6346_check.py "MSKU 849250 9"        # spaces are tolerated
 iso6346_check.py < codes.txt            # batch via stdin
@@ -70,11 +76,11 @@ iso6346_check.py -v MSKU8492509         # show full breakdown
 
 ### Exit codes
 
-| Code | Meaning                                                             |
-|------|---------------------------------------------------------------------|
-| `0`  | All numbers valid (or check digit successfully computed for `--next`) |
-| `1`  | One or more numbers were invalid                                    |
-| `2`  | Bad input format                                                    |
+| Code | Meaning                                                              |
+|------|----------------------------------------------------------------------|
+| `0`  | All numbers valid (or check digit successfully computed for `--next`)|
+| `1`  | One or more numbers were invalid                                     |
+| `2`  | Bad input format                                                     |
 
 Useful in pipelines:
 
@@ -120,7 +126,7 @@ on bad payload shape (not `4 letters + 6 digits`).
 
 ## Worked example
 
-```
+```text
 MSKU 849250 9
 
 M = 24    K = 21    8 ×16   2 ×128
